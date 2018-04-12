@@ -15,11 +15,11 @@ def xor_decrypt(cyphered_lst, key):
         return ''.join(chr(int(char, 16) ^ ord(k))
                        for char, k in zip(cyphered_lst, cycle(key)))
     except TypeError:
-        return ''.join(bin(ord(char) ^ key) for char in cyphered)
+        return ''.join(chr(int(char, 16) ^ key) for char in cyphered_lst)
 
 
 if __name__ == '__main__':
-    key = 'sfsgjj'
+    key = 'sgfgjfdg'
     message = 'hello world'
     cyphered = xor_encrypt(message, key)
     with open('file1.txt', 'w') as file:
