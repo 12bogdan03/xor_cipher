@@ -10,7 +10,8 @@ def xor_encrypt(text, key):
         return ' '.join(hex(ord(char) ^ key) for char in text)
 
 
-def xor_decrypt(cyphered_lst, key):
+def xor_decrypt(cyphered, key):
+    cyphered_lst = cyphered.split()
     try:
         return ''.join(chr(int(char, 16) ^ ord(k))
                        for char, k in zip(cyphered_lst, cycle(key)))
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     print('%s ^ %s = %s' % (message, key, cyphered))
 
     with open('file1.txt', 'r') as file:
-        content = file.read().split()
+        content = file.read()
     decrypted = xor_decrypt(content, key)
     print('%s ^ %s = %s' % (content, key, decrypted))
 
