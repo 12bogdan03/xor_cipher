@@ -2,25 +2,34 @@ import argparse
 from itertools import cycle
 
 
-def xor_convert(text, key):
+def xor_encrypt(text, key):
     try:
-        return ''.join(hex(ord(char) ^ ord(k)) for char, k in zip(text, cycle(key)))
+        return ' '.join(hex(ord(char) ^ ord(k))
+                        for char, k in zip(text, cycle(key)))
     except TypeError:
-        return ''.join(hex(ord(char) ^ key) for char in text)
+        return ' '.join(hex(ord(char) ^ key) for char in text)
+
+
+def xor_decrypt(cyphered_lst, key):
+    try:
+        return ''.join(chr(int(char, 16) ^ ord(k))
+                       for char, k in zip(cyphered_lst, cycle(key)))
+    except TypeError:
+        return ''.join(bin(ord(char) ^ key) for char in cyphered)
 
 
 if __name__ == '__main__':
     key = 'sfsgjj'
     message = 'hello world'
-    cyphered = xor_convert(message, key)
+    cyphered = xor_encrypt(message, key)
     with open('file1.txt', 'w') as file:
         file.write(cyphered)
     print('%s ^ %s = %s' % (message, key, cyphered))
 
     with open('file1.txt', 'r') as file:
-        content = file.read()
-    decrypted = xor_convert(content, key)
-    print('%s ^ %s = %s' % (content, key, message))
+        content = file.read().split()
+    decrypted = xor_decrypt(content, key)
+    print('%s ^ %s = %s' % (content, key, decrypted))
 
     # to run from command line
     # parser = argparse.ArgumentParser()
